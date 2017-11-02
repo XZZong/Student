@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DAO.StudentDAO;
-import db.DatabaseHelper;
 import manage.*;
-import util.StudentMapper;
 
 /**
  * Servlet implementation class Login
