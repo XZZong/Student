@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.StudentDAO;
+import db.DatabaseHelper;
 import manage.*;
+import util.StudentMapper;
 
 /**
  * Servlet implementation class Login
@@ -38,17 +41,13 @@ public class Login extends HttpServlet {
 		String role = request.getParameter("identityId");
 		PrintWriter out = response.getWriter();
 		User user = null;
-		Student student = null;
+		Student student;
 		dataBase = new Database();
 		if(role.equals("1")) {
-			try {
-				student = dataBase.searchStudent(name,password);
-			} catch (SQLException e) {
-				// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
-				e.printStackTrace();
-			}
+		    student = StudentDAO.search(name, password);
 			if(student != null) {
-				response.setHeader("refresh", "1;url='info.jsp'");
+				response.sendRedirect(request.getContextPath() + "/info.jsp");
+//				response.setHeader("refresh", "1;url='info.jsp'");
 				request.getSession().setAttribute("Student", student);
 				return;
 			}
@@ -57,10 +56,10 @@ public class Login extends HttpServlet {
 			try {
 				user = dataBase.searchUser(name,password);			
 			} catch (IllegalStateException e) {
-				// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
+				// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Éµï¿½ catch ï¿½ï¿½
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
+				// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Éµï¿½ catch ï¿½ï¿½
 				e.printStackTrace();
 			}
 			if(user != null) {
@@ -70,7 +69,7 @@ public class Login extends HttpServlet {
 			}	
 		}	
 		out.write("<script>");
-		out.write("alert(\"ÓÃ»§Ãû»òÃÜÂë»ò½ÇÉ«Ñ¡Ôñ´íÎó£¡\")");
+		out.write("alert(\"ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½\")");
 		out.write("</script>");
 		response.setHeader("refresh", "1;url='index.jsp'");
 	}
