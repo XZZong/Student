@@ -56,7 +56,7 @@ public class DatabaseHelper {
         }
     }
 
-    public static List<Object> queryList(String sql, RowMapper rowMapper, Class<?> c) {
+    public static List<Object> queryList(String sql, RowMapper rowMapper) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -66,11 +66,8 @@ public class DatabaseHelper {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             List<Object> list = new ArrayList<>();
-//            String className = c.getName();
-//            这里完全没有用到c
             while (rs.next()) {
                 Object object = rowMapper.map(rs);
-                //如何将object转换为c的类型
                 list.add(object);
             }
             return list;

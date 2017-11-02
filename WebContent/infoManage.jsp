@@ -225,13 +225,14 @@ String name = user.getname();
 		</thead>
 		<tbody>
 			<%
-				List<Student> list = StudentDAO.getAll();
+				List list = StudentDAO.getAll();
 //			Database database = new Database();
 //			Enumeration<Student> en;
 //			en = database.searchStudent();
 //			for(; en.hasMoreElements();) {
-				for (Student student : list) {
+				for (Object object : list) {
 //				Student student = en.nextElement();
+					Student student = (Student) object;
 					String sex = "";
 					if (student.isSex())
 						sex = "男";
@@ -267,7 +268,7 @@ String name = user.getname();
 <div class = "login loginDialog" id = "addDialog" style = "display:none;">
 	<div class = "main">	
 		<p class = "t" style = "font-size:20px;">添加新的学生信息</p>
-		<img  src = "./images/close.png" id = "close" onclick = "closeAdd()">
+		<img  src = "./images/close.png" id = "close1" onclick = "closeAdd()">
 	 <form action="addStudent" method = "post"> 
 		<div class = "form-group">
 			<div class = "form-label clearfix right">

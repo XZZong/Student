@@ -18,19 +18,9 @@ public class StudentDAO {
         return (Student) DatabaseHelper.queryObject(sql,new StudentMapper());
     }
 
-    public static List<Student> getAll() {
+    public static List getAll() {
         String sql = "select * from student";
-        List list = DatabaseHelper.queryList(sql, new StudentMapper(), Student.class);
-        List<Student> list1 = new ArrayList<>();
-        assert list != null;
-//        这里进行类型转换有点浪费，到底如何返回Student类型的list
-        for (Object aList : list) {
-            Student student = (Student) aList;
-            list1.add(student);
-        }
-//        List<Student> list = (List<Student>) DatabaseHelper.queryList(sql,new StudentMapper(), Student.class);
-//        return list;
-        return list1;
+        return DatabaseHelper.queryList(sql, new StudentMapper());
     }
 
     public static boolean deleteStudent(String studentID) {
