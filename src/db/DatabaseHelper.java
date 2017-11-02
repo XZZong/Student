@@ -56,7 +56,7 @@ public class DatabaseHelper {
         }
     }
 
-    public static List<Object> queryList(String sql, RowMapper rowMapper, Class c) {
+    public static List<Object> queryList(String sql, RowMapper rowMapper, Class<?> c) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -67,11 +67,11 @@ public class DatabaseHelper {
             rs = ps.executeQuery();
             List<Object> list = new ArrayList<>();
 //            String className = c.getName();
+//            这里完全没有用到c
             while (rs.next()) {
                 Object object = rowMapper.map(rs);
-//                c.cast(object);
-//                JdbcTemplate
-                list.add(c.cast(object));
+                //如何将object转换为c的类型
+                list.add(object);
             }
             return list;
         } catch (Exception e) {
@@ -94,6 +94,45 @@ public class DatabaseHelper {
             rs = ps.executeQuery();
             if (rs.first()) {
                 return rs.getInt("count");
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            clear(rs, ps, con);
+        }
+    }
+
+    public static int update(String sql) {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            clear(null, ps, con);
+        }
+    }
+
+    //获取自增id
+    public static long create(String sql) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            if (rs.first()) {
+                return rs.getLong(1);
             }
             return 0;
         } catch (Exception e) {

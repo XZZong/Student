@@ -3,6 +3,8 @@
 <%@page import="manage.*"%>
 <%@page import = "severlet.Database" %>
 <%@page import = "java.util.Enumeration" %>
+<%@page import="DAO.StudentDAO" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -223,31 +225,41 @@ String name = user.getname();
 		</thead>
 		<tbody>
 			<%
-			Database database = new Database();
-			Enumeration<Student> en;
-			en = database.searchStudent();
-			for(; en.hasMoreElements();) {
-				Student student = en.nextElement();
-				String sex = "";
-				if(student.isSex())
-					sex = "男";
-				else 
-					sex = "女";
+				List<Student> list = StudentDAO.getAll();
+//			Database database = new Database();
+//			Enumeration<Student> en;
+//			en = database.searchStudent();
+//			for(; en.hasMoreElements();) {
+				for (Student student : list) {
+//				Student student = en.nextElement();
+					String sex = "";
+					if (student.isSex())
+						sex = "男";
+					else
+						sex = "女";
 			%>
-				<tr>
-					<td><%=student.getStudentID() %></td>
-					<td><%=student.getStudentName() %></td>
-					<td><%=sex %></td>
-					<td><%=student.getBirth() %></td>
-					<td><%=student.getNation() %></td>
-					<td><%=student.getEntrance() %></td>
-					<td><%=student.getClassName() %></td>
-					<td><%=student.getSpecialty() %></td>
-					<td><a style="color:blue;cursor:pointer;" onclick = "showUpdate(this);">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<a style="color:blue;cursor:pointer;" onclick = "deleteStudent(this);">删除</a></td>
-				</tr>
+			<tr>
+				<td><%=student.getStudentID() %>
+				</td>
+				<td><%=student.getStudentName() %>
+				</td>
+				<td><%=sex %>
+				</td>
+				<td><%=student.getBirth() %>
+				</td>
+				<td><%=student.getNation() %>
+				</td>
+				<td><%=student.getEntrance() %>
+				</td>
+				<td><%=student.getClassName() %>
+				</td>
+				<td><%=student.getSpecialty() %>
+				</td>
+				<td><a style="color:blue;cursor:pointer;" onclick="showUpdate(this);">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a style="color:blue;cursor:pointer;" onclick="deleteStudent(this);">删除</a></td>
+			</tr>
 			<%
-			}
+				}
 			%>																
 		</tbody>
 	</table>
