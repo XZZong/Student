@@ -45,7 +45,6 @@ public class Login extends HttpServlet {
 		    student = StudentDAO.search(name, password);
 			if(student != null) {
 				response.sendRedirect(request.getContextPath() + "/info.jsp");
-//				response.setHeader("refresh", "1;url='info.jsp'");
 				request.getSession().setAttribute("Student", student);
 				return;
 			}
@@ -67,7 +66,7 @@ public class Login extends HttpServlet {
 			}	
 		}	
 		out.write("<script>");
-		out.write("alert(\"�û�����������ɫѡ�����\")");
+		out.write("alert(\"用户名或密码错误，请重新登录！\")");
 		out.write("</script>");
 		response.setHeader("refresh", "1;url='index.jsp'");
 	}

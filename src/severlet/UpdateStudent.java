@@ -1,8 +1,9 @@
 package severlet;
 
+import DAO.StudentDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/updateStudent")
 public class UpdateStudent extends HttpServlet {
 	private static final long serialVersionUID = 73845L;
-	private static Database dataBase;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +36,7 @@ public class UpdateStudent extends HttpServlet {
 		String studentName = request.getParameter("studentName1");
 		String xing = request.getParameter("sex1");
 		boolean sex = false;
-		if(xing.equals("ÄÐ"))
+		if(xing.equals("ç”·"))
 			sex = true;
 		String className = request.getParameter("className1");
 		String birth = request.getParameter("birth1");
@@ -44,25 +44,20 @@ public class UpdateStudent extends HttpServlet {
 		String entrance = request.getParameter("entrance1");
 		String specialty = request.getParameter("specialty1");
 		PrintWriter out = response.getWriter();
-		dataBase = new Database();
 		try {
-			boolean flag = dataBase.updateStudent(studentID, studentName, className, sex, birth, nation, entrance, specialty);
+            boolean flag = StudentDAO.updateStudent(studentID,studentName,className,sex,birth,nation,entrance,specialty);
 			out.write("<script>");
 			if(flag) {				
-				out.write("alert(\"ÐÞ¸ÄÑ§ÉúÐÅÏ¢³É¹¦£¡\")");							
+				out.write("alert(\"update student information successfully\")");
 			}
 			else {
-				out.write("alert(\"ÐÞ¸ÄÑ§ÉúÐÅÏ¢Ê§°Ü£¡\")");
+				out.write("alert(\"Fail to update\")");
 			}
-			out.write("</script>");	
-			response.setHeader("refresh", "1;url='infoManage.jsp'");
+			out.write("</script>");
+			response.sendRedirect(request.getContextPath() + "/infoManage.jsp");
 		} catch (IllegalStateException e) {
-			// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
 	}
 
 	/**

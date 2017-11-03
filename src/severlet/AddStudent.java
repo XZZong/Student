@@ -1,5 +1,7 @@
 package severlet;
 
+import DAO.StudentDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/addStudent")
 public class AddStudent extends HttpServlet {
 	private static final long serialVersionUID = 5825L;
-	private static Database dataBase;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +37,7 @@ public class AddStudent extends HttpServlet {
 		String studentName = request.getParameter("studentName");
 		String xing = request.getParameter("sex");
 		boolean sex = false;
-		if(xing.equals("ÄÐ"))
+		if(xing.equals("ç”·"))
 			sex = true;
 		String className = request.getParameter("className");
 		String birth = request.getParameter("birth");
@@ -44,23 +45,18 @@ public class AddStudent extends HttpServlet {
 		String entrance = request.getParameter("entrance");
 		String specialty = request.getParameter("specialty");
 		PrintWriter out = response.getWriter();
-		dataBase = new Database();
 		try {
-			boolean flag = dataBase.insertStudent(studentID, studentName, className, sex, birth, nation, entrance, specialty);
+			boolean flag = StudentDAO.insertStudent(studentID,studentName,className,sex,birth,nation,entrance,specialty);
 			out.write("<script>");
 			if(flag) {				
-				out.write("alert(\"Ìí¼ÓÐÂÑ§ÉúÐÅÏ¢³É¹¦£¡\")");							
+				out.write("alert(\"Add student successfully\")");
 			}
 			else {
-				out.write("alert(\"Ìí¼ÓÐÂÑ§ÉúÐÅÏ¢Ê§°Ü£¡\")");
+				out.write("alert(\"Fail !!!!\")");
 			}
 			out.write("</script>");	
 			response.setHeader("refresh", "1;url='infoManage.jsp'");
 		} catch (IllegalStateException e) {
-			// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
 			e.printStackTrace();
 		}
 	}

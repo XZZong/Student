@@ -1,8 +1,9 @@
 package severlet;
 
+import DAO.StudentDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/deleteStudent")
 public class DeleteStudent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Database dataBase;   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,20 +34,18 @@ public class DeleteStudent extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String studentID = request.getParameter("deleteID");
 		PrintWriter out = response.getWriter();
-		dataBase = new Database();
 		try {
-			boolean flag = dataBase.deleteStudent(studentID);
+		    boolean flag = StudentDAO.deleteStudent(studentID);
 			out.write("<script>");
 			if(flag) {				
-				out.write("alert(\"删除学生信息成功！\")");							
+				out.write("alert(\"delete successfully\")");
 			}
 			else {
-				out.write("alert(\"删除学生信息失败！\")");
+				out.write("alert(\"Fail !!!\")");
 			}
 			out.write("</script>");	
 			response.setHeader("refresh", "1;url='infoManage.jsp'");
-		} catch (IllegalStateException | SQLException e) {
-			// TODO 自动生成的 catch 块
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
 	}

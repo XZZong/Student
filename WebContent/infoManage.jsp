@@ -29,35 +29,33 @@
 	}
 	function logout() {
 		var msg = "是否确定退出？\n\n请确认！";
-		if (confirm(msg)==true){
-			return true;
-		}else{
-			return false;
-		}
+		return confirm(msg) === true;
 	}
 	function closeAdd() {
 		$("#addDialog").css('display','none');
-		for(i=0;i<document.all.tags("input").length;i++){   
-	         document.all.tags("input")[i].value="";  
-		}
+		$("body input").val("");
+//		for(var i=0;i < document.all.tags("input").length;i++){   
+//	         document.all.tags("input")[i].value="";  
+//		}
 	}
 	function showAdd() {
 		$("#addDialog").css('display','block');
 	}
 	function closeUpdate() {
 		$("#updateDialog").css('display','none');
+		$("body input").val("");
 	}
 	function showUpdate(r) {
 		$("#updateDialog").css('display','block');
 		var i=r.parentNode.parentNode.rowIndex;
-		studentID = document.getElementById("studentInfo").rows[i].cells[0].innerText;
-		studentName = document.getElementById("studentInfo").rows[i].cells[1].innerText;
-		sex = document.getElementById("studentInfo").rows[i].cells[2].innerText;
-		birth = document.getElementById("studentInfo").rows[i].cells[3].innerText;
-		nation = document.getElementById("studentInfo").rows[i].cells[4].innerText;
-		entrance = document.getElementById("studentInfo").rows[i].cells[5].innerText;
-		className = document.getElementById("studentInfo").rows[i].cells[6].innerText;
-		specialty = document.getElementById("studentInfo").rows[i].cells[7].innerText;
+		var studentID = document.getElementById("studentInfo").rows[i].cells[0].innerText;
+		var studentName = document.getElementById("studentInfo").rows[i].cells[1].innerText;
+		var sex = document.getElementById("studentInfo").rows[i].cells[2].innerText;
+		var birth = document.getElementById("studentInfo").rows[i].cells[3].innerText;
+		var nation = document.getElementById("studentInfo").rows[i].cells[4].innerText;
+		var entrance = document.getElementById("studentInfo").rows[i].cells[5].innerText;
+		var className = document.getElementById("studentInfo").rows[i].cells[6].innerText;
+		var specialty = document.getElementById("studentInfo").rows[i].cells[7].innerText;
 		document.getElementById("studentID").value = studentID;
 		document.getElementById("studentName").value = studentName;
 		document.getElementById("sex").value = sex;
@@ -69,10 +67,10 @@
 	}
 	function deleteStudent(r) {
 		var msg = "是否确定删除？\n\n请确认！";
-		if (confirm(msg)== false)
+		if (confirm(msg)=== false)
 			return;
 		var i=r.parentNode.parentNode.rowIndex;
-		studentID = document.getElementById("studentInfo").rows[i].cells[0].innerText;		
+		var studentID = document.getElementById("studentInfo").rows[i].cells[0].innerText;
 		document.form1.action= "deleteStudent?deleteID=" + studentID;
 	    document.form1.submit();
 	}
@@ -226,12 +224,7 @@ String name = user.getname();
 		<tbody>
 			<%
 				List list = StudentDAO.getAll();
-//			Database database = new Database();
-//			Enumeration<Student> en;
-//			en = database.searchStudent();
-//			for(; en.hasMoreElements();) {
 				for (Object object : list) {
-//				Student student = en.nextElement();
 					Student student = (Student) object;
 					String sex = "";
 					if (student.isSex())
